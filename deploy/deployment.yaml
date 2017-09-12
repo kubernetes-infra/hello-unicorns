@@ -1,0 +1,57 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "${APP_NAME}"
+  namespace: "${K8S_NAMESPACE}"
+  labels:
+    app: "${K8S_APP}"
+    name: "${APP_NAME}"
+    tier: "${APP_TIER}"
+    environment: "${APP_ENV}"
+spec:
+  replicas: ${APP_REPLICAS}
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: "${K8S_APP}"
+      name: "${APP_NAME}"
+      tier: "${APP_TIER}"
+      environment: "${APP_ENV}"
+  template:
+    metadata:
+      labels:
+        app: "${K8S_APP}"
+        name: "${APP_NAME}"
+        tier: "${APP_TIER}"
+        environment: "${APP_ENV}"
+    spec:
+      containers:
+      - name: "${APP_NAME}"
+        image: "${DOCKER_IMAGE}"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: ${APP_PORT}
+          protocol: TCP
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "${APP_ENV}"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: ${APP_PORT}
+          initialDelaySeconds: 15
+          timeoutSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /
+            port: ${APP_PORT}
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+      imagePullSecrets:
+      - name: "${DOCKER_REGISTRY}"

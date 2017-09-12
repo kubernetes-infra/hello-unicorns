@@ -1,0 +1,25 @@
+{
+  "name": "hello-unicorns",
+  "version": "1.0.0",
+  "description": "Hello Metrics Application",
+  "main": "index.js",
+  "repository": "https://github.com/kubernetes-infra/hello-unicorns.git",
+  "author": "Hans Flaatten <hans.flaatten@evry.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3",
+    "prom-client": "^10.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.5.0",
+    "eslint-watch": "^3.1.2",
+    "nsp": "^2.7.0",
+    "supervisor": "^0.12.0"
+  },
+  "scripts": {
+    "lint": "eslint *.js",
+    "start": "supervisor -w index.js -e js index.js"
+  }
+}

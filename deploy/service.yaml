@@ -1,0 +1,25 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: "${APP_NAME}"
+  namespace: "${K8S_NAMESPACE}"
+  labels:
+    app: "${K8S_APP}"
+    name: "${APP_NAME}"
+    tier: "${APP_TIER}"
+    environment: "${APP_ENV}"
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: "$APP_PORT"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+spec:
+  ports:
+  - port: 80
+    targetPort: ${APP_PORT}
+  selector:
+    app: "${K8S_APP}"
+    name: "${APP_NAME}"
+    tier: "${APP_TIER}"
+    environment: "${APP_ENV}"

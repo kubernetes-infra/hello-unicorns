@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  node:
+    image: node:8-alpine
+    working_dir: /usr/src/app
+    network_mode: bridge
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./app:/usr/src/app"
+    environment:
+      - NODE_ENV=development
+      - MONGO_DB=test
+    command: yarn run start
