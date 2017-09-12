@@ -9,6 +9,12 @@ const unicornCounter = new Counter({
   labelNames: ['name'],
 });
 
+const unicornRating = new Counter({
+  name: 'unicorns_rating_total',
+  help: 'Number of unicorns requested',
+  labelNames: ['name'],
+});
+
 server.get('/', (req, res) => {
   res.end('Here be dragons!');
 });
@@ -19,6 +25,15 @@ server.get('/request/:name', (req, res) => {
   unicornCounter.inc({ name });
 
   res.json({ status: 'ok', message: `Unicorn ${name} requested` });
+});
+
+server.get('/rate/:name/:rating', (req, res) => {
+  let { name, rating } = req.params;
+  rating = Math.min(parseInt(rating, 10), 6);
+
+  unicornRating.inc({ name }, parseInt(rating, 10));
+
+  res.json({ status: 'ok', message: `You rated ${name} with ${rating} points!` });
 });
 
 server.get('/metrics', (req, res) => {
