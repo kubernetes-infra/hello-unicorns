@@ -28,7 +28,8 @@ server.get('/request/:name', (req, res) => {
 });
 
 server.get('/rate/:name/:rating', (req, res) => {
-  let { name, rating } = req.params;
+  const { name } = req.params;
+  let { rating } = req.params;
   rating = Math.min(parseInt(rating, 10), 6);
 
   unicornRating.inc({ name }, parseInt(rating, 10));
