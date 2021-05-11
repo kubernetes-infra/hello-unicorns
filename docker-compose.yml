@@ -2,7 +2,7 @@ version: '2'
 
 services:
   node:
-    image: node:8-alpine
+    image: node:16-alpine
     working_dir: /usr/src/app
     network_mode: bridge
     ports:
